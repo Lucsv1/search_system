@@ -1,0 +1,14 @@
+{
+    "name": "admin/consulta",
+    "autoload": {
+        "psr-4": {
+            "Admin\\Consulta\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Joao"
+        }
+    ],
+    "require": {}
+}

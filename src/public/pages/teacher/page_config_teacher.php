@@ -107,6 +107,7 @@ if ($professor) :
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <link rel="stylesheet" type="text/css" href="../assets_pages/styles/style_pages.css">
     </head>
 
     <body>
@@ -114,7 +115,7 @@ if ($professor) :
             <h1>Bem vindo <?php echo htmlspecialchars($professor['pro_nome']) ?></h1>
         </header>
         <main>
-            <section>
+            <section class="first_section">
                 <h3>Selecione os seus cursos, sala e horarios</h3>
                 <form action="page_config_teacher.php" method="post">
                     <label for="curso">Cursos:</label>
@@ -133,11 +134,11 @@ if ($professor) :
                     <input type="time" id="hora" name="horario">
                     <label for="horario">Data</label>
                     <input type="date" id="data" name="data">
-                    <input type="submit" value="Enviar">
+                    <input class="button_confirm" type="submit" value="Enviar">
                 </form>
             </section>
-            <section>
-                <div>
+            <section class="second_section">
+                <div class="base_infos">
                     <h3>Veja seus horarios</h3>
                     <table>
                         <thead>
@@ -145,7 +146,7 @@ if ($professor) :
                                 <th>Data</th>
                                 <th>Hora</th>
                                 <th>Sala</th>
-                                <th>Curso</th>
+                                <th>Aulas</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -161,8 +162,8 @@ if ($professor) :
                     </table>
                 </div>
             </section>
-            <section>
-                <div>
+            <section class="users_section">
+                <div class="users_base">
                     <h3>Seus Alunos</h3>
                     <ul>
                         <?php 

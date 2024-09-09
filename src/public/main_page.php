@@ -10,16 +10,16 @@
 
 <body>
     <header>
-        <h1>Sistema adimiinstrativo</h1>
+        <h1>Sistema adiminstrativo</h1>
     </header>
     <main>
         <section>
-            <div>
+            <div class="base_main">
                 <h2>Você é ?</h2>
-                <div>
+                <div class="teacher">
                     <button id="btnProfessor">Professor</button>
                 </div>
-                <div>
+                <div class="user">
                     <button id="btnAluno">Aluno</button>
                 </div>
             </div>

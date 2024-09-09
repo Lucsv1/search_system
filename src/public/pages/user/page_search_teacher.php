@@ -61,7 +61,8 @@ if ($aluno) :
         return $number_class['sala_numero'];
     }
 
-    function get_course_by_teacher_id($pdo, $id_pro, $index){
+    function get_course_by_teacher_id($pdo, $id_pro, $index)
+    {
         $sql_course_ = "SELECT ID_curso FROM professor_por_curso WHERE ID_pro = :ID_pro";
         $stmt_course_ = $pdo->prepare($sql_course_);
 
@@ -81,7 +82,6 @@ if ($aluno) :
         $get_name_course = $stmt_get_name->fetch(PDO::FETCH_ASSOC);
 
         return $get_name_course['curso_name'];
-
     }
 
 
@@ -96,21 +96,21 @@ if ($aluno) :
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Localização Professor</title>
+        <link rel="stylesheet" type="text/css" href="../assets_pages/styles/style_pages.css">
+
     </head>
 
     <body>
         <header>
-        <section>
-                <h2>Bem vindo: <?php echo htmlspecialchars($aluno['user_login']) ?></h2>
-            </section>
+            <h2>Bem vindo: <?php echo htmlspecialchars($aluno['user_login']) ?></h2>
         </header>
         <main>
-            <section>
+            <section class="name_teacher">
                 <?php foreach ($teachers as $teacher): ?>
-                    <span>Seu Professor: <?php echo $teacher['pro_nome'] ?></span>
+                    <span>Seu Professor: <span class="name"> <?php echo $teacher['pro_nome'] ?></span></span>
                 <?php endforeach ?>
             </section>
-            <section>
+            <section class="base_infos_user">
                 <h3>Horarios das aulas</h3>
                 <table>
                     <thead>
@@ -118,7 +118,7 @@ if ($aluno) :
                             <th>Data</th>
                             <th>Hora</th>
                             <th>Sala</th>
-                            <th>Curso</th>
+                            <th>Aulas</th>
                         </tr>
                     </thead>
                     <tbody>

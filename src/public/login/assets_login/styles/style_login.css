@@ -1,3 +1,97 @@
-*{
-    
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+header {
+    margin-top: 10px;
+}
+
+
+header h2 {
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-decoration: underline;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+}
+
+.login_teacher_base {
+    margin-top: 10px;
+    border: solid rgba(0, 0, 255, 0.353);
+    width: 20%;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.login_user_base {
+    margin-top: 10px;
+    border: solid rgba(0, 0, 255, 0.353);
+    width: 20%;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.login_teacher_base div form {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.login_user_base div form {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+form label {
+    margin-top: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+form input {
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.button_teacher_login{
+    border: solid rgba(0, 0, 255, 0.353);
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 255, 0.275);
+    background-color: rgb(98, 98, 255);
+    color: white;
+    transition: 0.2s;
+}
+
+.button_teacher_login:hover{
+    background-color: rgba(0, 0, 136, 0.866);
+    color: white;
+    cursor: pointer;
+}
+
+.button_user_login{
+    border: solid rgba(0, 0, 255, 0.353);
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 255, 0.275);
+    background-color: rgb(98, 98, 255);
+    color: white;
+    transition: 0.2s;
+}
+
+.button_user_login:hover{
+    background-color: rgba(0, 0, 136, 0.866);
+    color: white;
+    cursor: pointer;
 }

@@ -1,3 +1,80 @@
 *{
-    
+    margin: 0;
+    padding: 0;   
 }
+
+body{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+header{
+    margin-top: 10px;
+}
+
+header h1 {
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-decoration: underline;
+}
+
+main {
+    margin-top: 100px;
+}
+
+section{
+    border: solid rgba(0, 0, 255, 0.353);
+    border-radius: 5px;
+    margin: 50px;
+}
+
+.base_main{
+    padding: 10px;
+}
+
+.base_main h2{
+    margin-bottom: 30px;
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.teacher{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.teacher button{
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 255, 0.275);
+    background-color: rgb(98, 98, 255);
+    color: white;
+    transition: 0.2s;
+}
+.teacher button:hover{
+    background-color: rgba(0, 0, 136, 0.866);
+    color: white;
+    cursor: pointer;
+}
+
+.user{
+    display: flex;
+    justify-content: center;
+}
+
+.user button{
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 255, 0.275);
+    background-color: rgb(98, 98, 255);
+    color: white;
+    transition: 0.2s;
+}
+.user button:hover{
+    background-color: rgba(0, 0, 136, 0.866);
+    color: white;
+    cursor: pointer;
+}
+

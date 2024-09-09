@@ -15,14 +15,14 @@
     </header>
     <main>
         <section>
-            <div>
+            <div class="login_user_base">
                 <div>
                     <form action="page_login_to_user.php" method="post">
                         <label for="usuario">Nome de Usuario</label>
                         <input type="text" id="usuario" name="usuario">
                         <label for="senha">Senha</label>
                         <input type="password" id="senha" name="senha">
-                        <input type="submit" value="Entrar">
+                        <input class="button_user_login" type="submit" value="Entrar">
                     </form>
                 </div>
             </div>

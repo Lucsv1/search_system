@@ -3,6 +3,7 @@
 namespace Admin\Consulta\controller\process_login_teacher;
 
 use Admin\Consulta\config\Config_db;
+use PDO;
 
 class Login_Teacher
 {
@@ -65,14 +66,17 @@ class Login_Teacher
         $pdo = $db->auth_db();
 
         // Verifica se o email e a senha já existem
-        $check_sql = "SELECT COUNT(*) FROM professor WHERE pro_email = :pro_email AND pro_tag = :pro_tag";
+        $check_sql = "SELECT ID_pro FROM professor WHERE pro_email = :pro_email AND pro_tag = :pro_tag";
         $check_stmt = $pdo->prepare($check_sql);
         $check_stmt->bindValue(':pro_email', $email_teacher);
         $check_stmt->bindValue(':pro_tag', $senha_teacher);
         $check_stmt->execute();
-        $user_exists = $check_stmt->fetchColumn();
+        
+        $result = $check_stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user_exists) {
+        if ($result) {
+            session_start();
+            $_SESSION['ID_pro'] = $result['ID_pro'];  
             ?> <script>
             window.location.href='../../public/pages/teacher/page_config_teacher.php';
             </script> <?php

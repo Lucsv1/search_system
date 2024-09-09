@@ -24,9 +24,6 @@
                         <input type="submit" value="Entrar">
                     </form>
                 </div>
-                <div>
-                    <span>Ainda Sem cadastro ?<a id="register_teacher">clique aqui</a></span>
-                </div>
             </div>
         </section>
     </main>

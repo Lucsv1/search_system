@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,16 +17,13 @@
         <section>
             <div>
                 <div>
-                    <form action="" method="post">
-                        <label for="">Email:</label>
-                        <input type="text">
-                        <label for="">Senha</label>
-                        <input type="password">
+                    <form action="page_login_to_user.php" method="post">
+                        <label for="usuario">Nome de Usuario</label>
+                        <input type="text" id="usuario" name="usuario">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha">
                         <input type="submit" value="Entrar">
                     </form>
-                </div>
-                <div>
-                    <span>Ainda Sem cadastro ?<a id="register_user">clique aqui</a></span>
                 </div>
             </div>
         </section>
@@ -34,3 +32,17 @@
 </body>
 
 </html>
+
+<?php ?>
+
+<?php
+
+use Admin\Consulta\controller\process_login_user\Login_User;
+
+require_once("../../../vendor/autoload.php");
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if(isset($_POST['usuario']) && isset($_POST['senha'])){
+        new Login_User($_POST['usuario'], $_POST['senha']);
+    }
+}

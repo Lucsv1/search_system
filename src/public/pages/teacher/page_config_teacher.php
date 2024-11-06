@@ -7,6 +7,7 @@ use Admin\Consulta\controller\process_inserts_infos\Infos;
 
 session_start();
 
+// Verifica se o ID do professor está na sessão. Se não estiver, bloqueia o acesso.
 if (!isset($_SESSION['ID_pro'])) {
     echo "Acesso negado. Você precisa fazer login.";
     exit();
@@ -17,6 +18,7 @@ $id_pro = $_SESSION['ID_pro'];
 $db = new Config_db();
 $pdo = $db->auth_db();
 
+// Busca todas as informações do professor a partir do ID do professor.
 $sql = "SELECT * FROM professor WHERE ID_pro = :ID_pro";
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':ID_pro', $_SESSION['ID_pro'], PDO::PARAM_INT);
@@ -26,37 +28,40 @@ $professor = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($professor) :
 
-    //resgata todos os numeros da sala
+    // Resgata todos os números das salas.
     $sql_sala = "SELECT sala_numero FROM sala";
     $stmt_sala = $pdo->prepare($sql_sala);
     $stmt_sala->execute();
 
     $salas = $stmt_sala->fetchAll(PDO::FETCH_ASSOC);
 
-    //resgata data hora 
+    // Resgata a data e hora das localizações do professor.
     $sql_search = "SELECT * FROM localizacao WHERE ID_pro = :ID_pro";
     $stmt_search = $pdo->prepare($sql_search);
-
     $stmt_search->bindValue(':ID_pro', $id_pro);
-
     $stmt_search->execute();
 
     $searchs = $stmt_search->fetchAll(PDO::FETCH_ASSOC);
 
-    //resgata todos os nomes do curso
-
+    // Resgata todos os nomes dos cursos.
     $sql_get_name_course = "SELECT curso_name FROM curso";
     $stmt_course = $pdo->prepare($sql_get_name_course);
     $stmt_course->execute();
 
     $courses = $stmt_course->fetchAll(PDO::FETCH_ASSOC);
+
+    /**
+     * Obtém o número da sala a partir do ID da sala.
+     *
+     * @param PDO $pdo Instância do PDO para executar a consulta.
+     * @param int $id ID da sala.
+     * @return string Número da sala.
+     */
     function get_number_class($pdo, $id)
     {
         $sql_sala_get_number = "SELECT sala_numero FROM sala WHERE sala_numero = :sala_numero";
         $stmt_get_number = $pdo->prepare($sql_sala_get_number);
-
         $stmt_get_number->bindValue(':sala_numero', $id);
-
         $stmt_get_number->execute();
 
         $number_class = $stmt_get_number->fetch(PDO::FETCH_ASSOC);
@@ -64,41 +69,52 @@ if ($professor) :
         return $number_class['sala_numero'];
     }
 
-    function get_course_by_teacher_id($pdo, $id_pro, $index){
+    /**
+     * Obtém o nome do curso a partir do ID do professor.
+     *
+     * @param PDO $pdo Instância do PDO para executar a consulta.
+     * @param int $id_pro ID do professor.
+     * @param int $index Índice do curso.
+     * @return string Nome do curso.
+     */
+    function get_course_by_teacher_id($pdo, $id_pro, $index)
+    {
         $sql_course_ = "SELECT ID_curso FROM professor_por_curso WHERE ID_pro = :ID_pro";
         $stmt_course_ = $pdo->prepare($sql_course_);
-
         $stmt_course_->bindValue(':ID_pro', $id_pro);
         $stmt_course_->execute();
 
         $get_id_course = $stmt_course_->fetchAll(PDO::FETCH_ASSOC);
 
-
         $sql_get_name_course = "SELECT curso_name FROM curso WHERE ID_curso = :ID_curso";
         $stmt_get_name = $pdo->prepare($sql_get_name_course);
-
         $stmt_get_name->bindValue(':ID_curso', $get_id_course[$index]['ID_curso']);
-
         $stmt_get_name->execute();
 
         $get_name_course = $stmt_get_name->fetch(PDO::FETCH_ASSOC);
 
         return $get_name_course['curso_name'];
-
     }
 
-    function get_users_by_teacher($pdo, $id_pro){
+    /**
+     * Obtém os usuários associados a um professor específico.
+     *
+     * @param PDO $pdo Instância do PDO para executar a consulta.
+     * @param int $id_pro ID do professor.
+     * @return array Lista de usuários associados ao professor.
+     */
+    function get_users_by_teacher($pdo, $id_pro)
+    {
         $sql_user = "SELECT user_login FROM usuario WHERE ID_pro = :ID_pro";
         $stmt_user = $pdo->prepare($sql_user);
-
         $stmt_user->bindValue(':ID_pro', $id_pro);
         $stmt_user->execute();
 
         $get_users = $stmt_user->fetchAll(PDO::FETCH_ASSOC);
         return $get_users;
     }
-
 ?>
+
 
     <!DOCTYPE html>
     <html lang="en">

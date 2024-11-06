@@ -5,6 +5,13 @@ namespace Admin\Consulta\controller\process_login_teacher;
 use Admin\Consulta\config\Config_db;
 use PDO;
 
+/**
+ * Class LoginTeacher
+ * 
+ * Description: Funções da tela de login do professor, verifica email e senha.
+ * 
+ */
+
 class Login_Teacher
 {
 
@@ -60,30 +67,45 @@ class Login_Teacher
         return $this;
     }
 
+    /**
+     * Verifica se um professor com o e-mail e senha fornecidos já existe.
+     *
+     * Esta função verifica se um professor com o e-mail e senha fornecidos já está registrado no banco de dados.
+     * Se o professor existir, inicia uma sessão e redireciona para a página de configuração do professor.
+     * Caso contrário, exibe uma mensagem de erro informando que o usuário não foi encontrado.
+     *
+     * @param string $email_teacher E-mail do professor.
+     * @param string $senha_teacher Senha do professor.
+     * @throws PDOException Se houver um erro ao executar a consulta.
+     */
     public function check_teacher_exists($email_teacher, $senha_teacher)
     {
         $db = new Config_db();
         $pdo = $db->auth_db();
 
-        // Verifica se o email e a senha já existem
+        // Verifica se o e-mail e a senha já existem.
         $check_sql = "SELECT ID_pro FROM professor WHERE pro_email = :pro_email AND pro_tag = :pro_tag";
         $check_stmt = $pdo->prepare($check_sql);
         $check_stmt->bindValue(':pro_email', $email_teacher);
         $check_stmt->bindValue(':pro_tag', $senha_teacher);
         $check_stmt->execute();
-        
+
         $result = $check_stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
             session_start();
-            $_SESSION['ID_pro'] = $result['ID_pro'];  
-            ?> <script>
-            window.location.href='../../public/pages/teacher/page_config_teacher.php';
-            </script> <?php
+            $_SESSION['ID_pro'] = $result['ID_pro'];
+
+            // Redireciona para a página de configuração do professor.
+            ?>
+            <script>
+                window.location.href = '../../public/pages/teacher/page_config_teacher.php';
+            </script>
+            <?php
         } else {
-            // Usuário não encontrado
+            // Usuário não encontrado.
             echo "Usuário não encontrado.";
-            
         }
     }
+
 }

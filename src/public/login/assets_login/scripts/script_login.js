@@ -1,4 +1,3 @@
-
 document.getElementById('register_user')?.addEventListener('click', function(){
     window.location.href='../register/page_register_to_user.php';
 });

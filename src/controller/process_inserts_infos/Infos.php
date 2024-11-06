@@ -5,6 +5,13 @@ namespace Admin\Consulta\controller\process_inserts_infos;
 use Admin\Consulta\config\Config_db;
 use PDO;
 
+/**
+ * Class Infos
+ * 
+ * Description: Insere as informações de cursos, salas, horarios e as datas.
+ * 
+ */
+
 class Infos
 {
     private $curso;
@@ -124,9 +131,15 @@ class Infos
         return $this;
     }
 
+    /**
+     * Obtém o ID de um curso com base no nome do curso.
+     *
+     * @param string $curso Nome do curso.
+     * @return int ID do curso.
+     * @throws PDOException Se houver um erro ao executar a consulta.
+     */
     public function get_course($curso)
     {
-
         $db = new Config_db();
         $pdo = $db->auth_db();
 
@@ -139,12 +152,18 @@ class Infos
 
         $get_id = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $get_id['ID_curso'] ;
+        return $get_id['ID_curso'];
     }
 
+    /**
+     * Obtém o ID de uma sala com base no número da sala.
+     *
+     * @param int $sala Número da sala.
+     * @return int ID da sala.
+     * @throws PDOException Se houver um erro ao executar a consulta.
+     */
     public function get_class($sala)
     {
-        
         $sala_int = intval($sala);
 
         $db = new Config_db();
@@ -162,6 +181,15 @@ class Infos
         return $get_id_class['ID_sala'];
     }
 
+    /**
+     * Insere uma nova entrada na tabela `localizacao` para registrar a presença do professor em uma sala específica.
+     *
+     * @param string $horario Horário da localização.
+     * @param string $data Data da localização.
+     * @param int $id_pro ID do professor.
+     * @param int $id_sala ID da sala.
+     * @throws PDOException Se houver um erro ao executar a inserção.
+     */
     public function insert_search($horario, $data, $id_pro, $id_sala)
     {
         $db = new Config_db();
@@ -175,13 +203,19 @@ class Infos
 
         $stmt->bindValue(':loc_data', $data_format);
         $stmt->bindValue(':loc_hora', $horario);
-        $stmt->bindValue(':ID_pro', $id_pro); // Corrigido aqui
-        $stmt->bindValue(':ID_sala', $id_sala); // Corrigido aqui
+        $stmt->bindValue(':ID_pro', $id_pro);
+        $stmt->bindValue(':ID_sala', $id_sala);
 
         $stmt->execute();
     }
 
-
+    /**
+     * Associa um professor a um curso na tabela `professor_por_curso`.
+     *
+     * @param int $id_course ID do curso.
+     * @param int $id_pro ID do professor.
+     * @throws PDOException Se houver um erro ao executar a inserção.
+     */
     public function insert_teacher_course($id_course, $id_pro)
     {
         $db = new Config_db();
@@ -196,4 +230,5 @@ class Infos
 
         $stmt->execute();
     }
+
 }

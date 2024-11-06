@@ -76,31 +76,52 @@ class Config_db
     }
 
 
+    /**
+     * Estabelece uma conexão com o banco de dados e cria as tabelas necessárias.
+     *
+     * Esta função configura uma nova instância de PDO para interagir com o banco de dados,
+     * define o modo de erro para exceções e chama uma função para criar as tabelas no banco de dados.
+     *
+     * @return PDO Retorna a instância de PDO configurada.
+     * @throws PDOException Se houver um erro ao tentar se conectar ao banco de dados ou configurar o PDO.
+     */
     public function auth_db()
     {
-
+        // Obtém as credenciais e informações do banco de dados.
         $dns = $this->getDsn();
         $username = $this->getUser();
         $password = $this->getPassword();
 
+        // Cria uma nova instância de PDO para se conectar ao banco de dados.
         $pdo = new PDO($dns, $username);
+
+        // Define o modo de erro do PDO para lançar exceções em caso de erro.
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+        // Chama a função para criar as tabelas necessárias no banco de dados.
         $this->create_tables($pdo);
 
+        // Retorna a instância de PDO configurada.
         return $pdo;
     }
 
+
+    /** * Cria as tabelas necessárias no banco de dados. * * Esta função verifica se as tabelas 'usuario', 'professor', 'localizacao', 'sala', 'curso' e 'professor_por_curso' * já existem. Se alguma tabela não existir, ela a cria. * * @param PDO $pdo Instância de PDO para executar as consultas no banco de dados. */
+
+
+
     private function create_tables($pdo)
     {
-        $sql_user =  "SELECT 1 FROM usuario LIMIT 1";
-        $sql_professor =  "SELECT 1 FROM professor LIMIT 1";
-        $sql_localizacao =  "SELECT 1 FROM localizacao LIMIT 1";
-        $sql_sala =  "SELECT 1 FROM sala LIMIT 1";
-        $sql_curso =  "SELECT 1 FROM curso LIMIT 1";
-        $sql_professor_por_curso =  "SELECT 1 FROM professor_por_curso LIMIT 1";
+        // Consultas SQL para verificar a existência das tabelas.
+        $sql_user = "SELECT 1 FROM usuario LIMIT 1";
+        $sql_professor = "SELECT 1 FROM professor LIMIT 1";
+        $sql_localizacao = "SELECT 1 FROM localizacao LIMIT 1";
+        $sql_sala = "SELECT 1 FROM sala LIMIT 1";
+        $sql_curso = "SELECT 1 FROM curso LIMIT 1";
+        $sql_professor_por_curso = "SELECT 1 FROM professor_por_curso LIMIT 1";
 
         try {
+            // Verifica a existencia da tabela
             $pdo->query($sql_professor);
             $pdo->query($sql_user);
             $pdo->query($sql_localizacao);
@@ -109,6 +130,7 @@ class Config_db
             $pdo->query($sql_professor_por_curso);
         } catch (PDOException $e) {
 
+            // Se alguma tabela não existir, cria-as
             $sql_professor = "CREATE TABLE `professor` (
                 `ID_pro` INT(11) NOT NULL AUTO_INCREMENT,
                 `pro_email` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
@@ -121,7 +143,7 @@ class Config_db
                 `ID_user` INT(11) NOT NULL AUTO_INCREMENT,
                 `user_login` VARCHAR(355) NULL DEFAULT NULL,
                 `user_senha` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                `user_perission` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                `user_permission` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
                 `ID_pro` INT(11) NOT NULL,
                 PRIMARY KEY (`ID_user`),
                 FOREIGN KEY (`ID_pro`) REFERENCES `professor`(`ID_pro`) 
@@ -185,9 +207,9 @@ class Config_db
             $this->create_users($pdo, 'aluno24', 'RM12324', 'ATIVO', $id_prod);
             $this->create_users($pdo, 'aluno35', 'RM12335', 'ATIVO', $id_prod);
 
-
             $pdo->exec($sql_sala);
 
+            // Criação da conta dos alunos -
             $this->create_class($pdo, 1);
             $this->create_class($pdo, 2);
             $this->create_class($pdo, 3);
@@ -198,6 +220,7 @@ class Config_db
             $pdo->exec($sql_localizacao);
             $pdo->exec($sql_curso);
 
+            // Criação dos cursos
             $this->create_courses($pdo, 'redes');
             $this->create_courses($pdo, 'Devops');
             $this->create_courses($pdo, 'Front-end');
@@ -208,9 +231,19 @@ class Config_db
         }
     }
 
+
+    /**
+     * Insere um novo professor na tabela `professor`.
+     *
+     * @param PDO $pdo Instância de PDO para executar as consultas no banco de dados.
+     * @param string $pro_email E-mail do professor.
+     * @param string $pro_nome Nome do professor.
+     * @param string $pro_tag Tags ou observações relacionadas ao professor.
+     * @return int Retorna o ID do último professor inserido.
+     * @throws PDOException Se houver um erro ao tentar inserir o professor.
+     */
     private function create_teachers($pdo, $pro_email, $pro_nome, $pro_tag)
     {
-
         $sql_create = "INSERT INTO professor (pro_email, pro_nome, pro_tag) VALUES (:pro_email, :pro_nome, :pro_tag)";
         $stmt = $pdo->prepare($sql_create);
 
@@ -222,9 +255,19 @@ class Config_db
 
         return $pdo->lastInsertId();
     }
+
+    /**
+     * Insere um novo usuário na tabela `usuario`.
+     *
+     * @param PDO $pdo Instância de PDO para executar as consultas no banco de dados.
+     * @param string $user_login Nome de login do usuário.
+     * @param string $user_senha Senha do usuário.
+     * @param string $user_permission Permissões ou papéis do usuário.
+     * @param int $ID_pro Identificador do professor associado ao usuário.
+     * @throws PDOException Se houver um erro ao tentar inserir o usuário.
+     */
     private function create_users($pdo, $user_login, $user_senha, $user_permission, $ID_pro)
     {
-
         $sql_create = "INSERT INTO usuario (user_login, user_senha, user_perission, ID_pro) VALUES (:user_login, :user_senha, :user_perission, :ID_pro)";
         $stmt = $pdo->prepare($sql_create);
 
@@ -236,6 +279,13 @@ class Config_db
         $stmt->execute();
     }
 
+    /**
+     * Insere uma nova sala na tabela `sala`.
+     *
+     * @param PDO $pdo Instância de PDO para executar as consultas no banco de dados.
+     * @param int $number_class Número da sala.
+     * @throws PDOException Se houver um erro ao tentar inserir a sala.
+     */
     private function create_class($pdo, $number_class)
     {
         $sql_create = "INSERT INTO sala (sala_numero) VALUES (:sala_numero)";
@@ -245,6 +295,14 @@ class Config_db
 
         $stmt->execute();
     }
+
+    /**
+     * Insere um novo curso na tabela `curso`.
+     *
+     * @param PDO $pdo Instância de PDO para executar as consultas no banco de dados.
+     * @param string $name_course Nome do curso.
+     * @throws PDOException Se houver um erro ao tentar inserir o curso.
+     */
     private function create_courses($pdo, $name_course)
     {
         $sql_course = "INSERT INTO curso (curso_name) VALUES (:curso_name)";
@@ -253,6 +311,6 @@ class Config_db
         $stmt->bindValue(':curso_name', $name_course);
 
         $stmt->execute();
-
     }
+
 }
